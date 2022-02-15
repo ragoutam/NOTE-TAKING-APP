@@ -1,4 +1,4 @@
-console.log('Welcome to E-notes')
+// console.log('Welcome to E-notes')
 showNotes()
 // if someone clicks the addnote the local storage must update the value.
 let addbtn = document.getElementById('addbtn')
@@ -12,7 +12,7 @@ addbtn.addEventListener("click", function (e) {
     notesObj.push(addtxt.value)
     localStorage.setItem("notes", JSON.stringify(notesObj))
     addtxt.value = ""
-    console.log(notesObj)
+  
     showNotes();
 })
 // this part is for showing the notes in notes section
@@ -28,7 +28,7 @@ function showNotes() {
        
         <div class="card-body">
           <h5 class="card-title">Notes ${index + 1}</h5>
-          <p class="card-text">${element}</p>
+          <p id="para" class="card-text">${element}</p>
           <button id="${index}" onclick="deleteNote(this.id)" class="btn btn-primary">delete</button>
         </div>
       </div>
@@ -53,8 +53,23 @@ function deleteNote(index) {
     else { notesObj = JSON.parse(notes) }
     notesObj.splice(index, 1);
     localStorage.setItem("notes", JSON.stringify(notesObj))
-showNotes()
+    showNotes()
 }
-// searching text
-// let searchtxt=document.getElementById("searchtxt")
-// searchtxt.addEventListener("input",function(){})
+// searching notes
+
+let searchtxt = document.getElementById("searchtxt");
+searchtxt.addEventListener("input", function () {
+    let inputval = searchtxt.value.toLowerCase();
+
+    let notecard = document.getElementsByClassName("card");
+    Array.from(notecard).forEach(function (element) {
+        let cardtxt = element.getElementsByTagName("p")[0].innerText;
+        if (cardtxt.includes(inputval)) {
+
+            element.style.display = "block";
+        }
+        else { element.style.display = "none";}
+
+    })
+
+})
